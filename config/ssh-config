@@ -1,0 +1,34 @@
+# ~/.ssh/config
+# Multiple GitHub identities via SSH host aliases.
+#
+# Each Host block maps a unique alias (github.com-<profile>) to:
+#   - The real GitHub host (HostName github.com)
+#   - A specific SSH private key (IdentityFile)
+#
+# IMPORTANT: Use `git@github.com-<profile>:org/repo.git` as the remote URL
+# instead of `git@github.com:org/repo.git`. This tells both SSH (which key
+# to use) and Git (which identity config to load via includeIf).
+
+# ── Work identity ─────────────────────────────────────────────────────
+Host github.com-work
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_work
+
+# ── Personal identity ─────────────────────────────────────────────────
+Host github.com-personal
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_personal
+
+# ── Open Source / Organization identity ───────────────────────────────
+Host github.com-opensource
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_opensource
+
+# ── Default (fallback) ────────────────────────────────────────────────
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_personal

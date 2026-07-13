@@ -1,0 +1,8 @@
+# ~/.gitconfig-opensource
+# Auto-included for repos whose remote URL host is `github.com-opensource`.
+# Sourced via [includeIf] in ~/.gitconfig when the remote URL matches
+# git@github.com-opensource:*/**
+
+[user]
+    name = Your Open Source Name
+    email = your.opensource@organization.org

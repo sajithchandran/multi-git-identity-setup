@@ -1,0 +1,8 @@
+# ~/.gitconfig-personal
+# Auto-included for repos whose remote URL host is `github.com-personal`.
+# Sourced via [includeIf] in ~/.gitconfig when the remote URL matches
+# git@github.com-personal:*/**
+
+[user]
+    name = Your Name
+    email = your.personal.email@gmail.com

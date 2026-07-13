@@ -1,0 +1,8 @@
+# ~/.gitconfig-work
+# Auto-included for repos whose remote URL host is `github.com-work`.
+# Sourced via [includeIf] in ~/.gitconfig when the remote URL matches
+# git@github.com-work:*/**
+
+[user]
+    name = Your Work Name
+    email = your.name@company.com

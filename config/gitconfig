@@ -1,0 +1,56 @@
+# ~/.gitconfig — global Git configuration.
+# Identity (name/email) is layered:
+#   1. Repo-local `git config user.*` (highest)
+#   2. One of ~/.gitconfig-{personal,work,opensource} — auto-selected by remote URL
+#      (loaded via [includeIf] directives at the BOTTOM of this file so they
+#      override the fall-through [user] block above)
+#   3. The [user] block below (fall-through for non-aliased remotes)
+#   4. (none — would error)
+
+# ── Filters (always on) ──────────────────────────────────────────────
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+# ── Push behaviour ───────────────────────────────────────────────────
+[push]
+    autoSetupRemote = true
+
+# ── Credentials (gh CLI handles GitHub auth) ─────────────────────────
+[credential "https://github.com"]
+    helper =
+    helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+    helper =
+    helper = !/opt/homebrew/bin/gh auth git-credential
+
+# ── Fall-through identity ────────────────────────────────────────────
+# Used by repos whose remote is NOT a github.com-* alias (e.g. plain
+# `github.com:foo/bar`, GitLab, Bitbucket, or local-only repos). For these
+# either:
+#   (a) convert their remote to the right alias and let includeIf take over,
+#   (b) or set `git config --local user.email ...` per repo.
+# Overridden by the includes below when the URL matches.
+[user]
+    name = Your Name
+    email = your.email@default.com
+
+# ── Identity overrides by GitHub SSH host alias ──────────────────────
+# Must come AFTER the [user] fall-through above so they win the last-write
+# tie-break. The pattern `git@github.com-<id>:*/**` (slash then **) is the
+# form that matches under Git's wildmatch WM_PATHNAME semantics for SSH-style
+# URLs that contain a `/` in their path.
+[includeIf "hasconfig:remote.*.url:git@github.com-personal:*/**"]
+    path = ~/.gitconfig-personal
+[includeIf "hasconfig:remote.*.url:git@github.com-work:*/**"]
+    path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:git@github.com-opensource:*/**"]
+    path = ~/.gitconfig-opensource
+
+# ── Hardening (uncomment to fail loudly when identity is unset) ──────
+# Once every repo's remote URL matches an alias above, you can flip this
+# on to make Git refuse commits without a resolved identity.
+# [user]
+#     useConfigOnly = true
