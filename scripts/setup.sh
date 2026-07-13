@@ -65,7 +65,7 @@ detect_existing_profiles() {
             fi
         done < "$HOME/.ssh/config"
     fi
-    echo "${profiles[@]}"
+    echo "${profiles[@]:-}"
 }
 
 # ── Generate SSH key ──────────────────────────────────────────────────────────
@@ -234,7 +234,7 @@ main() {
 
     # ── Collect profile info ────────────────────────────────────────────────
     read -r -p "Profile name (e.g., personal, work, opensource): " profile
-    profile="${profile,,}" # lowercase
+    profile="$(printf '%s' "$profile" | tr '[:upper:]' '[:lower:]')" # lowercase
     profile="${profile// /-}" # spaces to hyphens
 
     if [[ -z "$profile" ]]; then

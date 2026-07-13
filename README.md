@@ -73,7 +73,7 @@ You clone with:   git clone git@github.com-work:org/repo.git
 ### One-shot setup (recommended)
 
 ```bash
-git clone git@github.com:daivahealth/multi-git-identity-setup.git
+git clone git@github.com-personal:sajithchandran/multi-git-identity-setup.git
 cd multi-git-identity-setup
 chmod +x scripts/setup.sh
 ./scripts/setup.sh
@@ -205,6 +205,19 @@ This is the **key piece**. Git's `includeIf` directive conditionally loads a con
 
 > **Why must `includeIf` come AFTER `[user]`?**
 > Git applies settings **last-write-wins**. The `includeIf` needs to load _after_ the fallthrough `[user]` block so it overrides it.
+
+> **What are the `[filter "lfs"]` and `[credential ...]` blocks in `config/gitconfig`?**
+> `config/gitconfig` (the reference file in this repo) also ships two extras
+> unrelated to identity switching:
+> - `[filter "lfs"]` with `required = true` — makes Git use `git-lfs` for any
+>   file tracked via `.gitattributes` `filter=lfs`. With `required = true`,
+>   Git **errors** on such files if `git-lfs` isn't installed. Remove this
+>   block if you don't use Git LFS.
+> - `[credential "https://github.com"]` / `[credential "https://gist.github.com"]`
+>   — route HTTPS auth through `gh auth git-credential` (the GitHub CLI's
+>   credential helper) instead of prompting for a password/token. Requires
+>   `gh` to be installed and on your `$PATH`. Remove these blocks if you only
+>   use SSH remotes (as this guide otherwise recommends).
 
 ---
 

@@ -51,7 +51,7 @@ main() {
 
     # ── Collect ─────────────────────────────────────────────────────────────
     read -r -p "New profile name (e.g., client, freelance): " profile
-    profile="${profile,,}"
+    profile="$(printf '%s' "$profile" | tr '[:upper:]' '[:lower:]')"
     profile="${profile// /-}"
 
     if [[ -z "$profile" ]]; then
@@ -60,7 +60,7 @@ main() {
     fi
 
     # Check for duplicate
-    for p in "${existing[@]}"; do
+    for p in "${existing[@]:-}"; do
         if [[ "$p" == "$profile" ]]; then
             error "Profile '${profile}' already exists!"
             exit 1

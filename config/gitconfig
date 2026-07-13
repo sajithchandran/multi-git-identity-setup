@@ -21,10 +21,10 @@
 # ── Credentials (gh CLI handles GitHub auth) ─────────────────────────
 [credential "https://github.com"]
     helper =
-    helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !gh auth git-credential
 [credential "https://gist.github.com"]
     helper =
-    helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !gh auth git-credential
 
 # ── Fall-through identity ────────────────────────────────────────────
 # Used by repos whose remote is NOT a github.com-* alias (e.g. plain
